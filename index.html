@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="dark">
+<title>For Doraa ❤️</title>
+
+<style>
+html, body {
+  margin:0;
+  padding:0;
+  background:black !important;
+  color:white !important;
+  font-family:sans-serif;
+  height:100%;
+  overflow:hidden;
+  text-align:center;
+}
+
+/* screens */
+.screen{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:0.6s;
+}
+
+.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* buttons */
+button{
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d6d;
+  color:white;
+  margin-top:20px;
+  cursor:pointer;
+}
+
+/* input */
+input{
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  text-align:center;
+  margin-top:10px;
+}
+
+/* floating hearts */
+.heart{
+  position:absolute;
+  color:red;
+  animation:float 5s linear infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(100vh);}
+  100%{transform:translateY(-10vh);}
+}
+
+/* final text */
+#final{
+  font-size:26px;
+  line-height:1.6;
+}
+
+.teddy{
+  font-size:70px;
+  margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="perfect.mp3">
+</audio>
+
+<!-- PAGE 1 -->
+<div id="p1" class="screen active">
+  <h1>Hey Doraa ❤️</h1>
+  <p>I made something for you...</p>
+  <button onclick="go(2)">Start</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="p2" class="screen">
+  <div class="teddy">🧸</div>
+  <h2>You are very special to me ❤️</h2>
+  <button onclick="go(3)">Next</button>
+</div>
+
+<!-- STORY -->
+<div id="p3" class="screen">
+  <p id="story"></p>
+  <button onclick="go(4)">Continue</button>
+</div>
+
+<!-- LOCK -->
+<div id="p4" class="screen">
+  <h2>🔐 One last thing...</h2>
+  <p>What do I call you? ❤️</p>
+
+  <input id="ans" placeholder="type here">
+  <button onclick="check()">Unlock</button>
+
+  <p id="msg"></p>
+</div>
+
+<!-- FINAL -->
+<div id="p5" class="screen">
+  <div id="final">
+    <p>Happy Birthday Doraa ❤️</p>
+    <p>You are my comfort, my peace, my smile 💖</p>
+    <p>And I’m really lucky to have you...</p>
+  </div>
+</div>
+
+<script>
+
+let fail=0;
+
+/* NAVIGATION */
+function go(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+
+  if(n===2){
+    document.getElementById('music').play().catch(()=>{});
+  }
+
+  if(n===3) startStory();
+}
+
+/* STORY */
+const lines=[
+"We started as friends...",
+"Same school, different sections...",
+"Then 11th changed everything...",
+"And slowly... you became my person ❤️",
+"I still remember that lab day...",
+"Just sitting near AC... talking...",
+"It felt different even then..."
+];
+
+let i=0, c=0;
+
+function startStory(){
+  const el=document.getElementById("story");
+
+  if(i<lines.length){
+    if(c<lines[i].length){
+      el.innerHTML+=lines[i][c++];
+      setTimeout(startStory,40);
+    } else {
+      el.innerHTML+="<br><br>";
+      i++; c=0;
+      setTimeout(startStory,500);
+    }
+  }
+}
+
+/* LOCK */
+function check(){
+  let val=document.getElementById("ans").value.toLowerCase().trim();
+  let msg=document.getElementById("msg");
+
+  if(["dora","doraa","doraaa"].includes(val)){
+    go(5);
+    return;
+  }
+
+  fail++;
+
+  const replies=[
+    "Nooo 😭 try again...",
+    "Think again 😂",
+    "Close... ❤️"
+  ];
+
+  if(fail<3){
+    msg.innerHTML=replies[Math.floor(Math.random()*replies.length)];
+  }else{
+    msg.innerHTML="Okay fine 😭 come here ❤️";
+    setTimeout(()=>go(5),1000);
+  }
+}
+
+/* FLOATING HEARTS */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),5000);
+},300);
+
+</script>
+
+</body>
+</html>
