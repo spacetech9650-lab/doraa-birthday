@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For Doraa ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:black;
+  color:white;
+  font-family:'Segoe UI',sans-serif;
+}
+
+/* SCREEN */
+.screen{
+  position:fixed;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  opacity:0;
+  pointer-events:none;
+  transition:0.7s;
+  z-index:0;
+}
+
+.active{
+  opacity:1;
+  pointer-events:auto;
+  z-index:10;
+}
+
+/* TEXT */
+h1{font-size:60px;}
+h2{font-size:42px;}
+
+p{
+  font-size:28px;
+  line-height:2;
+  max-width:850px;
+}
+
+/* BUTTON */
+button{
+  font-size:20px;
+  padding:16px 34px;
+  border:none;
+  border-radius:30px;
+  background:#ff4d6d;
+  color:white;
+  margin-top:30px;
+  cursor:pointer;
+}
+
+/* PHOTO */
+#photoBox{
+  width:420px;
+  height:420px;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+#slide{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:20px;
+  transition: transform 2s ease;
+}
+
+.caption{
+  margin-top:20px;
+  font-size:28px;
+}
+
+/* FINAL */
+.big{
+  font-size:48px;
+  line-height:2.3;
+}
+
+/* INPUT */
+input{
+  padding:12px;
+  font-size:18px;
+  border-radius:10px;
+  border:none;
+  margin-top:20px;
+}
+
+/* FADE OUT */
+.fade-out{
+  animation: fadeout 4s forwards;
+}
+
+@keyframes fadeout{
+  from{opacity:1;}
+  to{opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgm" loop>
+  <source src="music.mp3">
+</audio>
+
+<audio id="heart">
+  <source src="heartbeat.mp3">
+</audio>
+
+<!-- PAGE 1 -->
+<div id="p1" class="screen active">
+  <h1>Hey Doraa ❤️</h1>
+  <p>I made something for you...</p>
+  <button onclick="start()">Start</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="p2" class="screen">
+  <h2>You are very special to me ❤️</h2>
+  <button onclick="go(3)">Next</button>
+</div>
+
+<!-- STORY -->
+<div id="p3" class="screen">
+  <p id="story"></p>
+  <button onclick="go(4)">Continue</button>
+</div>
+
+<!-- MEMORY -->
+<div id="p4" class="screen">
+  <p id="memory"></p>
+  <button onclick="go(5)">Continue</button>
+</div>
+
+<!-- PHOTO -->
+<div id="p5" class="screen">
+  <h2>Just… you ❤️</h2>
+  <div id="photoBox">
+    <img id="slide">
+  </div>
+  <p id="cap" class="caption"></p>
+  <button onclick="go(6)">Continue</button>
+</div>
+
+<!-- LOCK -->
+<div id="p6" class="screen">
+  <h2>🔐 One last thing...</h2>
+  <p>What do I call you? ❤️</p>
+  <input id="ans">
+  <button onclick="check()">Unlock</button>
+  <p id="msg"></p>
+</div>
+
+<!-- FAKE END -->
+<div id="p7" class="screen">
+  <div class="big">
+    <p>Happy Birthday Doraa ❤️</p>
+    <p>You are caring, loving… and a little moody 😌</p>
+    <p>And I love when you match my vibe 😏❤️</p>
+    <p>No matter what… I’ll always choose you</p>
+  </div>
+</div>
+
+<!-- REAL END -->
+<div id="p8" class="screen">
+  <div class="big">
+    <p>Wait…</p>
+    <p>One more thing ❤️</p>
+    <br>
+    <p>This isn’t just a birthday message…</p>
+    <p>I didn’t just choose you once…</p>
+    <p>I choose you… every single day baby ❤️</p>
+  </div>
+</div>
+
+<script>
+
+/* START */
+function start(){
+  document.getElementById("bgm").play().catch(()=>{});
+  go(2);
+}
+
+/* NAV */
+function go(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+
+  if(n===3) startStory();
+  if(n===4) startMemory();
+  if(n===5) startPhotos();
+
+  if(n===7){
+    setTimeout(()=>go(8),7000);
+  }
+
+  if(n===8){
+    startFinale();
+  }
+}
+
+/* TYPE */
+function typeLines(id, lines, speed, delay){
+  let el=document.getElementById(id);
+  el.innerHTML="";
+  let i=0;
+
+  function next(){
+    if(i>=lines.length) return;
+
+    let line=lines[i];
+    let div=document.createElement("div");
+    el.appendChild(div);
+
+    if(line.trim()===""){
+      div.innerHTML="<br>";
+      i++;
+      setTimeout(next,200);
+      return;
+    }
+
+    let j=0;
+
+    function type(){
+      if(j<line.length){
+        div.innerHTML+=line[j];
+        j++;
+        setTimeout(type,speed);
+      }else{
+        i++;
+        setTimeout(next,delay);
+      }
+    }
+    type();
+  }
+
+  next();
+}
+
+/* STORY */
+function startStory(){
+  typeLines("story",[
+"We started as friends🙂‍↕️",
+"Then 11th changed everything ...",
+"And slowly... you became my person ❤️",
+"I still remember that lab day...😉",
+"Sitting under the AC...talking",
+"It felt different even then...",
+"Aur vo dandiya day....Uffff 💖",
+"And somewhere in between...",
+"I fell for you darling!!😘❤️"
+],55,800);
+}
+
+/* MEMORY */
+function startMemory(){
+  typeLines("memory",[
+"You think I don’t notice things...",
+"Uss din... when you confessed...",
+"My hands were literally shaking😂",
+"And those nights...when you got angry...",
+"And I have to spend hours calming you...",
+"Not gonna lie... I loved that part 😌",
+
+"And that day in school...",
+"When I tapped you and ran...",
+"And you came running behind me...it was actually fun🤭",
+
+"Aur abhi kuch din pehle...unn video calls me...",
+"You looked just woww!! ❤️",
+
+"Yeah...I remember everything 😌❤️",
+],55,850);
+}
+
+/* PHOTOS */
+const photos=["img1.jpeg","img2.jpeg","img3.jpeg","img4.jpeg"];
+const caps=[
+"That smile 😊",
+"That happiness 😄",
+"Those moments 😁",
+"Only this girl ❤️"
+];
+
+function startPhotos(){
+  let img=document.getElementById("slide");
+  let text=document.getElementById("cap");
+  let i=0;
+
+  function next(){
+    if(i>=photos.length) return;
+
+    img.src=photos[i];
+    text.innerHTML=caps[i];
+
+    i++;
+
+    let delay=(i===photos.length)?2500:1500;
+    setTimeout(next,delay);
+  }
+
+  next();
+}
+
+/* LOCK */
+let tries=0;
+
+function check(){
+  let v=document.getElementById("ans").value.toLowerCase().trim();
+  let msg=document.getElementById("msg");
+
+  if(v==="dora"||v==="doraa"){
+    go(7);
+    return;
+  }
+
+  tries++;
+
+  if(tries===1){
+    msg.innerHTML="Nahi Snigdhaaa 😭 ";
+  }
+  else if(tries===2){
+    msg.innerHTML="Arey yaar tujhe itna bhi nhi pata? 😒 one last try";
+  }
+  else{
+    msg.innerHTML="Okay fine I forgive you 😭 come here ❤️";
+    setTimeout(()=>go(7),1200);
+  }
+}
+
+/* FINAL HEARTBEAT */
+function startFinale(){
+  let heart=document.getElementById("heart");
+  let bgm=document.getElementById("bgm");
+  let page=document.getElementById("p8");
+
+  if(bgm) bgm.volume=0.3;
+
+  heart.play().catch(()=>{});
+
+  setTimeout(()=>{
+    page.classList.add("fade-out");
+  },5000);
+
+  setTimeout(()=>{
+    heart.pause();
+  },9000);
+}
+
+</script>
+
+</body>
+</html>
