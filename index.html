@@ -111,9 +111,7 @@ input{
   <source src="music.mp3">
 </audio>
 
-<audio id="heart">
-  <source src="heartbeat.mp3">
-</audio>
+
 
 <!-- PAGE 1 -->
 <div id="p1" class="screen active">
@@ -336,24 +334,6 @@ function check(){
   }
 }
 
-/* FINAL HEARTBEAT */
-function startFinale(){
-  let heart=document.getElementById("heart");
-  let bgm=document.getElementById("bgm");
-  let page=document.getElementById("p8");
-
-  if(bgm) bgm.volume=0.3;
-
-  heart.play().catch(()=>{});
-
-  setTimeout(()=>{
-    page.classList.add("fade-out");
-  },5000);
-
-  setTimeout(()=>{
-    heart.pause();
-  },9000);
-}
 
 </script>
 
