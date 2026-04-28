@@ -298,22 +298,28 @@ function startPhotos(){
 /* LOCK */
 let tries=0;
 
-function check(){
-  let v=document.getElementById("ans").value.toLowerCase().trim();
-  let msg=document.getElementById("msg");
+let tries = 0;
 
-  if(v==="dora"||v==="doraa"){
+function check(){
+  let v = document.getElementById("ans").value.toLowerCase().trim();
+  let msg = document.getElementById("msg");
+
+  if(v==="dora" || v==="doraa"){
     go(7);
     return;
   }
 
   tries++;
 
-  if(tries<3){
-    msg.innerHTML="Nahi Snigdhaaa😭";
-  }else{
-    msg.innerHTML="Okay fine tujhe nhi chamka 😭 come here ❤️";
-    setTimeout(()=>go(7),1000);
+  if(tries === 1){
+    msg.innerHTML = "Nahi Snigdhaaa 😭 ";
+  }
+  else if(tries === 2){
+    msg.innerHTML = "Arey yaar… itna bhi nahi pata tujhe? 😒 one last try";
+  }
+  else{
+    msg.innerHTML = "Okay fine 😭 I forgive you… come here ❤️";
+    setTimeout(()=>go(7),1200);
   }
 }
 
